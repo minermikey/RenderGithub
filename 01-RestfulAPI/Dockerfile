@@ -1,26 +1,21 @@
-# Use official .NET SDK image to build the app
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /src
+# Use official Node.js LTS image
+FROM node:20
 
-# Copy everything
+# Create app directory
+WORKDIR /usr/src/app
+
+# Copy package.json and package-lock.json first (for caching)
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install --production
+
+# Copy the rest of your app
 COPY . .
 
-# Restore dependencies
-RUN dotnet restore
-
-# Build the app
-RUN dotnet publish -c Release -o /app
-
-# Use a smaller runtime image for production
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
-WORKDIR /app
-COPY --from=build /app .
-
-# Render will use this port
-ENV ASPNETCORE_URLS=http://+:10000
+# Expose the port Render will use
+ENV PORT=10000
 EXPOSE 10000
 
 # Start the app
-ENTRYPOINT ["dotnet", "Render.dll"]
-
-#added comment
+CMD ["node", "server.js"]
