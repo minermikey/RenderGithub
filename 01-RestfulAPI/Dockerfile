@@ -21,6 +21,6 @@ ENV ASPNETCORE_URLS=http://+:10000
 EXPOSE 10000
 
 # Start the app
-ENTRYPOINT ["dotnet", "YourProjectName.dll"]
+ENTRYPOINT ["dotnet", "Render.dll"]
 
 #added comment
