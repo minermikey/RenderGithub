@@ -22,3 +22,5 @@ EXPOSE 10000
 
 # Start the app
 ENTRYPOINT ["dotnet", "YourProjectName.dll"]
+
+#added comment
